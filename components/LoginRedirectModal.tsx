@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, GraduationCap, Building2, Check, ArrowRight } from 'lucide-react'
+import { Search, GraduationCap, Building2, Check, ArrowRight, X } from 'lucide-react'
 import { useAuth } from '@/lib/context/AuthContext'
 import { getAllDepartments, departmentToSlug } from '@/lib/utils/departmentSlug'
 
@@ -52,13 +52,27 @@ export default function LoginRedirectModal() {
     router.push(`/dashboard/departments/${slug}`)
   }
 
+  const handleClose = () => {
+    localStorage.setItem('login-redirect-shown', 'true')
+    setIsOpen(false)
+  }
+
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
       {step === 'notice' ? (
         /* 1단계: "학과를 선택하세요." 알림 팝업 */
-        <div className="w-full max-w-[380px] bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xl flex flex-col items-center text-center animate-scale-up">
+        <div className="w-full max-w-[380px] bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xl flex flex-col items-center text-center animate-scale-up relative">
+          {/* 닫기 버튼 */}
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+            aria-label="닫기"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
           <div className="w-12 h-12 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 text-blue-600">
             <GraduationCap className="w-6 h-6" />
           </div>
@@ -78,7 +92,16 @@ export default function LoginRedirectModal() {
         </div>
       ) : (
         /* 2단계: 학과 목록 표 팝업 */
-        <div className="w-full max-w-xl bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xl flex flex-col animate-scale-up max-h-[90vh]">
+        <div className="w-full max-w-xl bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xl flex flex-col animate-scale-up max-h-[90vh] relative">
+          {/* 닫기 버튼 */}
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+            aria-label="닫기"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
           {/* 헤더 */}
           <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
             <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">

@@ -85,6 +85,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await syncUserToDatabase(currUser)
       }
 
+      if (event === 'SIGNED_OUT' && typeof window !== 'undefined') {
+        localStorage.removeItem('login-redirect-shown')
+      }
+
       setLoading(false)
     })
 
@@ -111,6 +115,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('login-redirect-shown')
+      }
       const { error } = await supabase.auth.signOut()
       if (error) throw error
       setUser(null)
