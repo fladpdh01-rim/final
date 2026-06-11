@@ -92,8 +92,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false)
     })
 
+    // 3. 팝업 창 로그인 완료 메시지 수신 리스너
+    const handleAuthMessage = async (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return
+      if (event.data?.type === 'supabase-auth-success') {
+        console.log('Received auth success event in AuthProvider. Refreshing session...')
+        try {
+          const { data: { session: newSession } } = await supabase.auth.getSession()
+          setSession(newSession)
+          const currUser = newSession?.user ?? null
+          setUser(currUser)
+          if (currUser) {
+            await syncUserToDatabase(currUser)
+          }
+        } catch (err) {
+          console.error('Failed to get session after callback success message:', err)
+        }
+      }
+    }
+
+    window.addEventListener('message', handleAuthMessage)
+
     return () => {
       subscription.unsubscribe()
+      window.removeEventListener('message', handleAuthMessage)
     }
   }, [])
 
