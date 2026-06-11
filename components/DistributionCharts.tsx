@@ -102,7 +102,7 @@ export default function DistributionCharts({
     return (
       <div className="relative h-[300px] w-full">
         {/* 중앙 텍스트 표시 */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" style={{ left: '-30%' }}>
+        <div className="absolute inset-y-0 left-0 w-[70%] flex flex-col items-center justify-center pointer-events-none">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">
             {totalLabel}
           </span>
