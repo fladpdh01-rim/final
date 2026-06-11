@@ -14,6 +14,7 @@ import CourseDetailTable from '@/components/CourseDetailTable'
 import LiberalArtsOverview from '@/components/gyoyang/LiberalArtsOverview'
 import LiberalArtsInsights from '@/components/gyoyang/LiberalArtsInsights'
 import AIAnalysisModal from '@/components/AIAnalysisModal'
+import UserMenu from '@/components/UserMenu'
 import ErrorBoundary, { ErrorType } from '@/components/ErrorBoundary'
 import { useCourseData } from '@/lib/hooks/useCourseData'
 import { isLiberalArtsCourse } from '@/lib/utils/liberalArtsFilter'
@@ -172,31 +173,36 @@ export function LiberalArtsDashboardContent() {
 
       <main className="flex-1 flex flex-col p-6 lg:p-8 overflow-y-auto max-h-screen">
 
-        {/* ── 브레드크럼 ── */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 flex-wrap select-none bg-white border border-slate-200 px-4 py-2.5 rounded-xl w-fit shadow-sm">
-          <Link href="/" className="flex items-center gap-1.5 hover:text-blue-600 transition-colors cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            인천대학교
-          </Link>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-          <Link href="/" className="hover:text-blue-600 transition-colors">대시보드</Link>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-          <span className="flex items-center gap-1.5 text-blue-600 font-bold">
-            <BookMarked className="w-3.5 h-3.5" />
-            교양 교과목
-          </span>
-          {selectedCollege && (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-              <span className={selectedDept ? 'text-slate-400 hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect(selectedCollege, '')}>{selectedCollege}</span>
-            </>
-          )}
-          {selectedDept && (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-              <span className="text-blue-600 font-bold">{selectedDept}</span>
-            </>
-          )}
+        {/* 상단 헤더 영역 */}
+        <div className="flex items-center justify-between w-full mb-6">
+          {/* ── 브레드크럼 ── */}
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold flex-wrap select-none bg-white border border-slate-200 px-4 py-2.5 rounded-xl shadow-sm">
+            <Link href="/" className="flex items-center gap-1.5 hover:text-blue-600 transition-colors cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              인천대학교
+            </Link>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+            <Link href="/" className="hover:text-blue-600 transition-colors">대시보드</Link>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+            <span className="flex items-center gap-1.5 text-blue-600 font-bold">
+              <BookMarked className="w-3.5 h-3.5" />
+              교양 교과목
+            </span>
+            {selectedCollege && (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+                <span className={selectedDept ? 'text-slate-400 hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect(selectedCollege, '')}>{selectedCollege}</span>
+              </>
+            )}
+            {selectedDept && (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+                <span className="text-blue-600 font-bold">{selectedDept}</span>
+              </>
+            )}
+          </div>
+
+          <UserMenu />
         </div>
 
 

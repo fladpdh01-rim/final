@@ -10,6 +10,7 @@ import TimeAnalysisCharts from '@/components/TimeAnalysisCharts'
 import CollegeAnalysisTable from '@/components/CollegeAnalysisTable'
 import CourseDetailTable from '@/components/CourseDetailTable'
 import AIAnalysisModal from '@/components/AIAnalysisModal'
+import UserMenu from '@/components/UserMenu'
 import ErrorBoundary, { ErrorType } from '@/components/ErrorBoundary'
 import { useCourseData } from '@/lib/hooks/useCourseData'
 import { useDashboardSelection } from '@/lib/hooks/useDashboardSelection'
@@ -199,26 +200,31 @@ function HomeContent() {
 
       {/* 메인 콘텐츠 컨테이너 */}
       <main className="flex-1 flex flex-col p-6 lg:p-8 overflow-y-auto max-h-screen">
-        {/* 상단 브레드크럼 */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 select-none bg-white border border-slate-200 px-4 py-2.5 rounded-xl w-fit shadow-sm">
-          <span className="flex items-center gap-1.5 hover:text-blue-600 transition-colors cursor-pointer" onClick={() => handleSelect('', '')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            인천대학교
-          </span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-          <span className={selectedCollege ? 'hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect('', '')}>대시보드</span>
-          {selectedCollege && (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-              <span className={selectedDept ? 'hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect(selectedCollege, '')}>{selectedCollege}</span>
-            </>
-          )}
-          {selectedDept && (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
-              <span className="text-blue-600 font-bold">{selectedDept}</span>
-            </>
-          )}
+        {/* 상단 헤더 영역 */}
+        <div className="flex items-center justify-between w-full mb-6">
+          {/* 상단 브레드크럼 */}
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold select-none bg-white border border-slate-200 px-4 py-2.5 rounded-xl shadow-sm">
+            <span className="flex items-center gap-1.5 hover:text-blue-600 transition-colors cursor-pointer" onClick={() => handleSelect('', '')}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              인천대학교
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+            <span className={selectedCollege ? 'hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect('', '')}>대시보드</span>
+            {selectedCollege && (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+                <span className={selectedDept ? 'hover:text-blue-600 transition-colors cursor-pointer' : 'text-blue-600 font-bold'} onClick={() => handleSelect(selectedCollege, '')}>{selectedCollege}</span>
+              </>
+            )}
+            {selectedDept && (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><polyline points="9 18 15 12 9 6"/></svg>
+                <span className="text-blue-600 font-bold">{selectedDept}</span>
+              </>
+            )}
+          </div>
+
+          <UserMenu />
         </div>
 
 

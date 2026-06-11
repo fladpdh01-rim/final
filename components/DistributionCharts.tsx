@@ -100,54 +100,62 @@ export default function DistributionCharts({
     }
 
     return (
-      <div className="relative h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={data}
-              cx="35%"
-              cy="50%"
-              innerRadius={65}
-              outerRadius={85}
-              paddingAngle={3}
-              dataKey="value"
-              isAnimationActive={animationsEnabled}
-            >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip content={<CustomTooltip />} />
-            <Legend
-              layout="vertical"
-              align="right"
-              verticalAlign="middle"
-              formatter={renderCustomLegend}
-              iconType="circle"
-              iconSize={8}
-              wrapperStyle={{ right: 10 }}
-            />
-            {/* 중앙 텍스트 표시 (Pie의 cx="35%", cy="50%" 위치에 정확히 정렬) */}
-            <text
-              x="35%"
-              y="48%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-[11px] fill-slate-400 font-bold uppercase tracking-wider font-sans select-none"
-            >
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 h-auto sm:h-[260px] py-2">
+        {/* SVG 차트 영역 */}
+        <div className="relative w-full sm:w-[50%] h-[240px] flex-shrink-0 flex items-center justify-center">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={65}
+                outerRadius={85}
+                paddingAngle={3}
+                dataKey="value"
+                isAnimationActive={animationsEnabled}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ResponsiveContainer>
+          
+          {/* 완벽한 중앙 정렬을 위한 absolute overlay */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
+            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider font-sans leading-none mb-1">
               {totalLabel}
-            </text>
-            <text
-              x="35%"
-              y="56%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-2xl fill-slate-800 font-extrabold font-sans select-none"
-            >
+            </span>
+            <span className="text-2xl text-slate-800 font-extrabold font-sans leading-none">
               {totalCourses.toLocaleString()}
-            </text>
-          </PieChart>
-        </ResponsiveContainer>
+            </span>
+          </div>
+        </div>
+
+        {/* 커스텀 범례 영역 */}
+        <div className="flex-1 w-full flex flex-col justify-center gap-2 px-2 max-h-[220px] overflow-y-auto">
+          {data.map((entry, index) => {
+            const percent = entry.percentage ? `${entry.percentage.toFixed(1)}%` : '0.0%'
+            return (
+              <div key={entry.name} className="flex items-center justify-between text-sm font-semibold text-slate-700 w-full py-0.5 border-b border-slate-50 last:border-0">
+                <div className="flex items-center gap-2 truncate pr-2">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  />
+                  <span className="truncate text-slate-700" title={entry.name}>
+                    {entry.name}
+                  </span>
+                </div>
+                <span className="text-slate-400 font-normal flex-shrink-0">
+                  ({percent})
+                </span>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
