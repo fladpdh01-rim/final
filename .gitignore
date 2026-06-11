@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# agent & temp files
+.agents/
+extracted_zip/
+scratch_depts.js
+skills-lock.json
