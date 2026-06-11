@@ -1,11 +1,13 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { LogOut, User as UserIcon } from 'lucide-react'
 import { useAuth } from '@/lib/context/AuthContext'
 
 export default function UserMenu() {
   const { user, loading, signOut } = useAuth()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -16,7 +18,12 @@ export default function UserMenu() {
       }
     }
     window.addEventListener('message', handleMessage)
-    return () => window.removeEventListener('message', handleMessage)
+    return () => {
+      window.removeEventListener('message', handleMessage)
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [])
 
   const openLoginPopup = () => {
@@ -30,6 +37,33 @@ export default function UserMenu() {
       'Supabase Google Login',
       `width=${width},height=${height},top=${top},left=${left},scrollbars=no,resizable=no`
     )
+  }
+
+  const handleMouseEnter = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    setIsDropdownOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timerRef.current = setTimeout(() => {
+      setIsDropdownOpen(false)
+    }, 5000)
+  }
+
+  const handleSignOut = async () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    setIsDropdownOpen(false)
+    try {
+      await signOut()
+    } catch (err) {
+      console.error('Sign out failed:', err)
+    }
   }
 
   if (loading) {
@@ -56,7 +90,11 @@ export default function UserMenu() {
   const email = user.email || ''
 
   return (
-    <div className="relative group flex items-center cursor-pointer select-none py-1">
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="relative flex items-center cursor-pointer select-none py-1"
+    >
       {/* 사용자 프로필 사진 또는 이니셜 */}
       <div className="w-8 h-8 rounded-full border border-slate-200/80 bg-blue-50/50 flex items-center justify-center overflow-hidden hover:scale-105 transition-transform duration-200 shadow-sm">
         {avatarUrl ? (
@@ -71,8 +109,14 @@ export default function UserMenu() {
         )}
       </div>
 
-      {/* 마우스 호버 시 표시되는 프로필 팝오버 */}
-      <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200/80 rounded-2xl shadow-xl py-3 px-4 transition-all duration-300 opacity-0 invisible scale-95 origin-top-right group-hover:opacity-100 group-hover:visible group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto z-50">
+      {/* 마우스 호버 시 표시되는 프로필 팝오버 (5초 딜레이) */}
+      <div
+        className={`absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200/80 rounded-2xl shadow-xl py-3 px-4 transition-all duration-300 origin-top-right z-50 ${
+          isDropdownOpen
+            ? 'opacity-100 visible scale-100 pointer-events-auto'
+            : 'opacity-0 invisible scale-95 pointer-events-none'
+        }`}
+      >
         <div className="flex flex-col gap-0.5 mb-2.5">
           <span className="text-xs font-bold text-slate-800 truncate" title={fullName}>
             {fullName}
@@ -85,7 +129,7 @@ export default function UserMenu() {
         
         {/* Sign out 버튼 */}
         <button
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="w-full flex items-center gap-2 px-2.5 py-1.5 text-[11px] font-bold text-red-600 hover:text-red-700 hover:bg-red-50/40 rounded-lg transition-colors cursor-pointer"
         >
           <LogOut className="w-3.5 h-3.5" />
