@@ -101,16 +101,6 @@ export default function DistributionCharts({
 
     return (
       <div className="relative h-[300px] w-full">
-        {/* 중앙 텍스트 표시 */}
-        <div className="absolute inset-y-0 left-0 w-[70%] flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">
-            {totalLabel}
-          </span>
-          <span className="text-2xl font-extrabold text-slate-800 mt-0.5">
-            {totalCourses.toLocaleString()}
-          </span>
-        </div>
-
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -137,6 +127,25 @@ export default function DistributionCharts({
               iconSize={8}
               wrapperStyle={{ right: 10 }}
             />
+            {/* 중앙 텍스트 표시 (Pie의 cx="35%", cy="50%" 위치에 정확히 정렬) */}
+            <text
+              x="35%"
+              y="48%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-[11px] fill-slate-400 font-bold uppercase tracking-wider font-sans select-none"
+            >
+              {totalLabel}
+            </text>
+            <text
+              x="35%"
+              y="56%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-2xl fill-slate-800 font-extrabold font-sans select-none"
+            >
+              {totalCourses.toLocaleString()}
+            </text>
           </PieChart>
         </ResponsiveContainer>
       </div>
