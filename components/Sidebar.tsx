@@ -451,28 +451,6 @@ export default function Sidebar({
         </div>
       </nav>
 
-      {/* ── 설정 영역 (애니메이션 토글) ── */}
-      <div className="px-5 py-3.5 border-t border-slate-200 flex flex-col gap-2 bg-slate-100/60">
-        <div className="flex items-center justify-between text-xs text-slate-600 font-semibold">
-          <span className="flex items-center gap-1.5">
-            {animationsEnabled ? <ZapIcon className="text-amber-500" /> : <ZapOffIcon className="text-slate-400" />}
-            애니메이션 효과
-          </span>
-          <button
-            onClick={toggleAnimations}
-            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-              animationsEnabled ? 'bg-blue-600' : 'bg-slate-300'
-            }`}
-          >
-            <span
-              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                animationsEnabled ? 'translate-x-4' : 'translate-x-0'
-              }`}
-            />
-          </button>
-        </div>
-      </div>
-
       {/* ── 푸터 ── */}
       <div className="px-5 py-4 border-t border-slate-200">
         <p className="text-[10px] text-slate-400 leading-relaxed font-medium">

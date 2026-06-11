@@ -30,7 +30,6 @@ export default function DepartmentDashboardPage({
   const [selectedCollege, setSelectedCollege] = useState('')
   const [selectedDept, setSelectedDept] = useState('')
   const [simulatedError, setSimulatedError] = useState<ErrorType | undefined>(undefined)
-  const [showSimulator, setShowSimulator] = useState(false)
 
   // ── 1. 해당 학과 강좌만 필터링 ────────────────────────────────────────
   const deptCourses = useMemo(
@@ -199,78 +198,6 @@ export default function DepartmentDashboardPage({
           </span>
         </div>
 
-        {/* 에러 시뮬레이터 패널 */}
-        <div className="mb-6 bg-white border border-slate-200 rounded-xl p-4 shadow-sm transition-all duration-300">
-          <div className="flex items-center justify-between cursor-pointer" onClick={() => setShowSimulator(!showSimulator)}>
-            <div className="flex items-center gap-2 text-sm font-bold text-slate-650">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <span>에러 시뮬레이션 설정 (테스트 및 평가용)</span>
-              {simulatedError && (
-                <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded border border-red-200 animate-pulse font-bold">
-                  활성화됨: {simulatedError}
-                </span>
-              )}
-            </div>
-            <span className="text-xs text-slate-400 font-bold hover:text-slate-700 transition-colors">
-              {showSimulator ? '접기' : '펼치기'}
-            </span>
-          </div>
-
-          {showSimulator && (
-            <div className="mt-4 flex flex-wrap gap-2 text-xs">
-              <button
-                onClick={() => setSimulatedError(undefined)}
-                className={`px-3 py-1.5 rounded-lg border font-bold transition-all ${
-                  simulatedError === undefined
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-500/10'
-                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                정상 상태 (Normal)
-              </button>
-              <button
-                onClick={() => setSimulatedError('network')}
-                className={`px-3 py-1.5 rounded-lg border font-bold transition-all ${
-                  simulatedError === 'network'
-                    ? 'bg-amber-500 text-slate-950 border-amber-500 shadow-sm shadow-amber-500/10'
-                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                네트워크 오류 (Network Error)
-              </button>
-              <button
-                onClick={() => setSimulatedError('permission')}
-                className={`px-3 py-1.5 rounded-lg border font-bold transition-all ${
-                  simulatedError === 'permission'
-                    ? 'bg-rose-600 text-white border-rose-600 shadow-sm shadow-rose-600/10'
-                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                권한 오류 (Permission Error)
-              </button>
-              <button
-                onClick={() => setSimulatedError('server')}
-                className={`px-3 py-1.5 rounded-lg border font-bold transition-all ${
-                  simulatedError === 'server'
-                    ? 'bg-red-600 text-white border-red-600 shadow-sm shadow-red-600/10'
-                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                서버 오류 (Server Error)
-              </button>
-              <button
-                onClick={() => setSimulatedError('empty')}
-                className={`px-3 py-1.5 rounded-lg border font-bold transition-all ${
-                  simulatedError === 'empty'
-                    ? 'bg-sky-600 text-white border-sky-600 shadow-sm shadow-sky-600/10'
-                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                데이터 없음 (No Data)
-              </button>
-            </div>
-          )}
-        </div>
 
         {/* ── 히어로 배너 ── */}
         <div className="relative rounded-2xl overflow-hidden mb-8 border border-blue-200/50 shadow-sm bg-white">
